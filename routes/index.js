@@ -13,13 +13,15 @@ router.get('/', function(req, res){
 });
 
 router.post('/displayDetails', function(req, res){
-  //here we will define city and url
-  var city = req.body.CityOptions;
-  console.log(city);
 
-  var url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`
+  //here we will define city and url
+  var city = req.body.CityInput;
+  console.log(city);
+  var url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
 request(url, function(err, response, body){
-  if(err) {console.log('error : ', error);}
+  if(err) {console.log('error : ', error);
+res.render('errorpage');
+}
   else {
     //if(response.statusCode==404){}
     //console.log('Error');
@@ -27,10 +29,17 @@ request(url, function(err, response, body){
     //else {
       var weather = JSON.parse(body);
       //console.log(`The temperature is ${weather.main.temp} Kelvin`);
+      console.log(weather);
+      if(response.statusCode==404){
+        console.log('Not Found');
+        res.render('errorpage');
+
+      }
+      else{
       var temp = weather.main.temp;
 
       res.render('result', {temp : temp});
-
+}
   }
 
 });
