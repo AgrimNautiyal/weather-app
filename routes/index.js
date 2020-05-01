@@ -1,11 +1,8 @@
 var router = require('express').Router();
-//var request = require('request');
 var request = require('request');
 require('dotenv').config();
 var apiKey = process.env.API_KEY;
 
-
-//router.use(bodyParser.json());
 router.get('/', function(req, res){
   console.log("Homepage loaded!");
     res.render('homepage');
@@ -21,16 +18,12 @@ request(url, function(err, response, body){
 res.render('errorpage');
 }
   else {
-    //if(response.statusCode==404){}
-    //console.log('Error');
-
-    //else {
       var weather = JSON.parse(body);
-      //console.log(`The temperature is ${weather.main.temp} Kelvin`);
       console.log(weather);
       if(response.statusCode==404){//this block evaluates conditions when city name doesn't exist in API's DB
         console.log('Not Found');
         res.render('errorpage');
+
 
       }
       else{
